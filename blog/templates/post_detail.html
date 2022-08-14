@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Post - Simple Blog Template</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="{% static 'blog/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="{% static 'blog/css/simple-blog-template.css' %}" rel="stylesheet">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'home' %}">Simple Blog</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="about.html">About</a>
+          </li>
+          {% if not user.is_authenticated %}
+          <li>
+            <a href="{% url 'login' %}">Login</a>
+          </li>
+          <li>
+            <a href="{% url 'signup' %}">Sign up</a>
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      <!-- Blog Post Content Column -->
+      <div class="col-lg-12">
+
+        <!-- Blog Post -->
+
+        <!-- Title -->
+        <hr>
+        <h1 class="post-title">{{ object.title }}</h1>
+
+        <!-- Author -->
+        <p class="lead">
+          by {{ post.author }}
+        <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.date }}</p>
+        </p>
+
+        <!-- Comment -->
+        <!-- Date/Time -->
+        <div class="post-entry">
+          <p>{{ object.body }}</p>
+          {% if user == post.author %}
+          <form action="{% url 'post_delete' post.pk %}" method="POST" role="form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Delete Post</button>
+          </form>
+          <br>
+          <form action="{% url 'post_edit' post.pk %}" method="POST" role="form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Edit Post</button>
+          </form>
+
+          {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- Post Content -->
+
+        {% block content %}
+
+
+
+        <!-- <div class="well"> -->
+
+        <!-- </div> -->
+        <h2>Comments</h2>
+
+        {% for comment in post.comments.all %}
+
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="http://placehold.it/64x64" alt="">
+          </a>
+          <div class="media-body">
+            <strog>
+
+              <p> {{ comment.body }} </p>
+
+              </strong>
+
+              <b> Commented By {{ comment.name}} On {{ comment.date }}</b>
+
+              <!-- <a href="{% url 'add_comment' object.pk %}">leave 5ara</a> -->
+          </div>
+        </div>
+        <hr>
+        {% endfor %}
+
+        {% endblock content %}
+
+
+        <!-- Blog Comments -->
+
+
+
+        <form action="{% url 'add_comment' post.pk %}" method="POST" role="form">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Leave Comment</button>
+        </form>
+
+        <!-- Comments Form -->
+
+
+
+        <!-- Posted Comments -->
+
+
+        <!-- Comment
+          <div class="media">
+            <a class="pull-left" href="#">
+            <img class="media-object" src="http://placehold.it/64x64" alt="">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">Start Bootstrap
+              <small>August 25, 2014 at 9:30 PM</small>
+            </h4>
+            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras
+            purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+            fringilla. Donec lacinia congue felis in faucibus.
+            Nested Comment
+              <a class="pull-left" href="#">
+                <img class="media-object" src="http://placehold.it/64x64" alt="">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">Nested Start Bootstrap
+                  <small>August 25, 2014 at 9:30 PM</small>
+                </h4>
+                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras
+                purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                fringilla. Donec lacinia congue felis in faucibus.
+              </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  <!-- /.row -->
+        <hr>
+      </div>
+      <!-- /.container -->
+
+      <!-- Footer -->
+      <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <p>Copyright &copy; Your Website 2022</p>
+            </div>
+            <!-- /.col-lg-12 -->
+          </div>
+          <!-- /.row -->
+        </div>
+      </footer>
+
+      <!-- jQuery -->
+      <script src="{% static 'blog/js/jquery.js' %}"></script>
+
+      <!-- Bootstrap Core JavaScript -->
+      <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+
+</body>
+
+</html>
