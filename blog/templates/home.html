@@ -54,15 +54,15 @@
                     <li>
                         <a href="{% url 'logout' %}">Log out</a>
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="{% url 'password_change' %}">Change Password</a>
                     </li>
                     <li>
 
                     </li>
                     {% else %}
-
+                    <!-- 
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="about.html">About</a> -->
                     <li>
 
                         <a href="{% url 'login' %}">Login</a>

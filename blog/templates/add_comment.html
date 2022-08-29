@@ -1,4 +1,6 @@
 {% load static %}
+
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,9 +48,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
+                    <!-- <li>
                         <a href="about.html">About</a>
-                    </li>
+                    </li> -->
                     {% if not user.is_authenticated %}
                     <li>
                         <a href="{% url 'login' %}">Login</a>
@@ -82,7 +84,7 @@
         <!-- <table> -->
         <form method="post" class="newpost-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
 
 
             <!-- </table> -->

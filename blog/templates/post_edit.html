@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,9 +47,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
+                    <!-- <li>
                         <a href="about.html">About</a>
-                    </li>
+                    </li> -->
 
                 </ul>
             </div>
@@ -75,7 +76,7 @@
         {% if user.is_authenticated %}
         <h1>Edit post</h1>
         <form method="post">{% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
 
             {% else %}
             You're not allowed here!
